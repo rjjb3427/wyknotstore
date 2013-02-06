@@ -1,5 +1,5 @@
 //What is backbone.js
-  // Backbone.js is a JavaScript framework that is used to create 
+	// Backbone.js is a JavaScript framework that is used to create 
 	// MVC like web applications. Backbone.js was created by Jeremy Ashkenas.
 
 //Benefits of using the backbone.js appoarch
@@ -179,6 +179,94 @@
 				myPhoto.set({ title: "On the beach" });
 				//logs Remember to set a source for your image!
 
+// Views 
+	// Views in Backbone don't contain the markup for your application, they are there to support models by defining the logic
+	// for how they should be represented to the user. This is usually achieved using JavaScript templating (e.g. Mustache,
+	// jQuery-tmpl, ect). A view's render() function can be bound to a model's change() event, allowing the view to always 
+	// be up to date without requiring a ful page refresh.
+
+	// Creating new views
+	// To create a new View, simply extend Backbone.View:
+		var PhotoSearch = Backbone.View.extend({
+			el: $('#results'),
+			render: function( event ){
+				var compiled_template = _.template( $("#results-template").html() );
+				this.$el.html( compiled_template(this.model.toJSON()) );
+				return this; //recommended as this enablees calls to be chained
+			},
+			events: {
+				"submit #searchForm": "search",
+				"click .reset": "reset",
+				"click .advanced": "switchContext"
+			},
+			search: function( event ){
+				//excuted when a form '#searchForm' has been submitted.
+			},
+			reset: function( event ){
+				//excuted when an element with the class "reset" has been clicked.
+			},
+			switchContext: function( event ){
+				//excuted when an element with class "advanced" has been clicked.
+			}
+		});
+
+	// What is el?
+		// el is basicaly a reference to a DOM element and all views must have one. It allows for all the content of a view
+		// to be inserted into the DOM at once, which makes for faster rendering as browser performs the minimum required 
+		// reflows and repaints.
+
+		// There are two ways to attach a DOM element to a view: the element already exists in the page or a new element is 
+		// created for the view and added manually by the developer. If the element already exixts in the page, you can set el 
+		// as either a CSS selector that matches the element or a simple reference to the DOM element.
+			el: '#footer',
+				//or
+			el: document.getElementById( 'footer' )
+
+		// If you want to create a new element for your view, set any combination of the followng view's properties: tagName, 
+		// id and className. A new element will be created for you by the framework and a reference to it will be available at 
+		// the el property.
+
+			tagName: 'p', // required, but defaults to 'div' if not set
+			className: 'container', // optional, you can assign multipe classes to this property like so 'conatiner'
+			id: 'header', // optional
+
+		// The above code creates the DOMElement below but doesn't append it to the DOM.
+			<p id="header" class="conatiner"></p>
+
+		// Understanding render()
+			// render() is an optional function that defines the logic for rendering a template. We'll use
+			// Underscore's micro-templating in these examples, but remember you can use other templating
+			// frameworks if you like.
+
+			// the _.template method in Underscore compiles JavaScript templates into functions which can be evaluated for rendering.
+			// In the above view, I'm passing the markup from a template with id results-template() to be compiled. Next, I
+			// set the html of the el DOM element to the output of processing a JSON version to the model associated with the view 
+			// through the compiled template.
+
+			// This populates the template, giving you a data-complete set of markup in just a few short lines of code.
+
+		// The events attribute
+			// The Backbone events attribute allows us to attach event listeners to either custom selectors, or directly to 
+			// el if no selector is provided. An event takes the form {"eventName selector": "callbackFunction"} and number of 
+			// event-types are supported, including Click, submit, mouseover, dblclick and more.
+
+			// What isn't instantly obvious is that under the bonnet, Backbone uses jQuery's .delegate() to provide instant support
+			// for event delegation but goes a little further, extending it so that this always refers to the current view object.
+			// The only thing to really keep in mind is that any string callback supplied to the events attribute must have a corre-
+			// sponding function with the same name within the scope of your view.
+
+// Collections
+	// Collection are sets of Models and are created by extending Backbone.Collection.
+
+	// Normally, when creating a collection you'll also want to pass through a property specifying the
+	// model that your collection will contain, as well as any instance properties required.
+
+	// In te following example, we create a PhotoCollection that will contain our Photo models:
+		var PhotoCollection = Backbone.Collection.extend({
+			model: Photo
+		});
+
+	// Getters and Setters
 
 
 
@@ -201,3 +289,4 @@ todoItem.save();
 // the HTML	 for the DOM.
 
 // to create a view class
+
