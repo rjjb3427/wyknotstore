@@ -267,6 +267,10 @@
 		});
 
 	// Getters and Setters
+		// There are a few different ways to retrieve a model from a collection. The most straight-foward
+		// is to use Collection.get() which accepts a single id as follows:
+			var skiingEpicness = PhotoCollection.get(2);
+
 
 
 
@@ -289,4 +293,73 @@ todoItem.save();
 // the HTML	 for the DOM.
 
 // to create a view class
+var todoView = Backbone.View.extend({});
+
+// To create a view instance
+var todoView = new TodoItem({ model: todoItem });//--> We're sending the model in the paramaters
+
+// Rending the view
+var todoView = Backbone.View.extend({
+	render: function(){
+		var html = '<h3>' + this.model.get('description') + '</h3>'
+		$(this.el).html(html);
+	}
+});
+//   |
+//   |
+//   V
+var todoView = new TodoItem({ model: todoItem });
+todoView.render()
+console.log(todoView.el);
+//   |
+//   |
+//   V
+<div>
+	<h3>Pick up milk</h3>
+</div>
+
+
+
+// Who created Backbone.js?
+
+// How do you create a model class in backbone.js?
+	var ModelName = Backbone.Model.extend({});
+
+// How do you create a model instance?
+	var modelName = new ModelName({ title: 'attribute' });
+
+// What is a model instance good for?
+
+// How would grab data out of your model class?
+
+// How would you set an attribute?
+	modelName.set({ attribute_label: 'attribute' });x
+
+// How do create a view class?
+	var ViewName = Backbone.View.extend({});
+
+// How to create a view instance?
+	var viewName = new ViewName({ model: model_instance_name });
+
+// How to render a view?
+	var ViewName = Backbone.View.extend({
+		render: function(){
+			var html ='<section>' + this.model.get('model_attribute') + '</section>'
+			$(this.el).html(html);
+		}
+	});
+// What does el stand for?
+	element
+
+
+
+
+
+
+
+
+
+
+
+
 
